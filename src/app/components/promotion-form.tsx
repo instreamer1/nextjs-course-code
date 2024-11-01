@@ -53,19 +53,20 @@ export default function PromotionForm({
   });
 
   const handleSubmit = async (values: PromotionFieldValues) => {
-    if (!company) {
-      return;
-    }
-
-    await mutateAsync({
-      ...values,
-      discount: Number(values.discount) || 0,
-      companyId: company.id,
-      companyTitle: company.title,
-    });
-
-    if (onSubmit) {
-      onSubmit(values);
+    if (company) {
+      await mutateAsync({
+        ...values,
+        discount: Number(values.discount) || 0,
+        companyId: company.id,
+        companyTitle: company.title,
+      });
+  
+      if (onSubmit) {
+        onSubmit(values);
+      }
+    } else {
+    
+      console.error('');
     }
   };
 
