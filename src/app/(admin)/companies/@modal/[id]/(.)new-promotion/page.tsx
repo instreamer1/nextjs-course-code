@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import PromotionFormModal from '@/app/components/promotion-form-modal';
 
@@ -10,9 +10,22 @@ export interface PageProps {
 
 export default function Page({ params }: PageProps) {
   const router = useRouter();
+  const [companyId, setCompanyId] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Устанавливаем companyId после того, как params.id будет доступен
+    if (params.id) {
+      setCompanyId(params.id);
+    }
+  }, [params.id]);
+
+  if (!companyId) {
+    return <p>Загрузка...</p>; // Можно отобразить индикатор загрузки или пустой элемент
+  }
+
   return (
     <PromotionFormModal
-      companyId={params.id}
+      companyId={companyId}
       show={true}
       onClose={() => router.back()}
     />
@@ -20,14 +33,27 @@ export default function Page({ params }: PageProps) {
 }
 
 
+
+
+
+
+
+
+
+// 'use client';
+
+// import React from 'react';
+// import { useRouter } from 'next/navigation';
+// import PromotionFormModal from '@/app/components/promotion-form-modal';
+
+// export interface PageProps {
+//   params: { id: string };
+// }
+
 // export default function Page({ params }: PageProps) {
 //   const router = useRouter();
-  
-//   // Проверьте, что params.id действительно строка и не undefined
-//   if (!params || typeof params.id !== 'string') {
-//     throw new Error('Invalid parameter: id is required and must be a string.');
-//   }
 
+//   console.log(params);
 //   return (
 //     <PromotionFormModal
 //       companyId={params.id}
@@ -36,3 +62,4 @@ export default function Page({ params }: PageProps) {
 //     />
 //   );
 // }
+
